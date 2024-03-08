@@ -8,21 +8,33 @@ function addTask() {
             status: 'in-progress'
         };
 
-        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        const tasks = getTasks();
         tasks.push(task);
-        localStorage.setItem('tasks', JSON.stringify(tasks));
+        saveTasks(tasks);
 
         input.value = '';
-        loadTasks();
+        loadTasks(); 
     }
 }
 
+function getTasks() {
+
+    try {
+        return JSON.parse(localStorage.getItem('tasks')) || [];
+    } catch (error) {
+        console.error('Error parsing tasks from localStorage:', error);
+        return [];
+    }
+}
+
+function saveTasks(tasks) {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
 
 function loadTasks() {
-    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-
+    const tasks = getTasks();
     const list = document.getElementById('list');
-    list.innerHTML = '';
+    list.innerHTML = ''; 
 
     tasks.forEach((task, index) => {
         const li = document.createElement('li');
@@ -32,20 +44,7 @@ function loadTasks() {
             li.classList.add('completed');
         }
 
-        const editBtn = document.createElement('button');
-        editBtn.textContent = 'Edit Task';
-        editBtn.classList.add('btn');
-        editBtn.addEventListener('click', function() {
-            const newTask = prompt('Edit task:', li.textContent);
-            if (newTask !== null) {
-                li.textContent = newTask;
-            }
-        });
-        
-        const completeBtn = document.createElement('button');
-        completeBtn.textContent = task.status === 'completed' ? 'Completed' : 'In Progress';
-        completeBtn.classList.add('btn');
-        completeBtn.addEventListener('click', function() {
+        const completeBtn = createButton(task.status === 'completed' ? 'Completed' : 'In Progress', 'btn', function() {
             if (li.classList.contains('completed')) {
                 li.classList.remove('completed');
                 completeBtn.textContent = 'In Progress';
@@ -55,24 +54,39 @@ function loadTasks() {
                 completeBtn.textContent = 'Completed';
                 task.status = 'completed';
             }
-            localStorage.setItem('tasks', JSON.stringify(tasks));
+            saveTasks(tasks);
         });
 
-        const deleteBtn = document.createElement('button');
-        deleteBtn.textContent = 'Delete Task';
-        deleteBtn.classList.add('btn');
-        deleteBtn.addEventListener('click', function() {
+        const editBtn = createButton('Edit Task', 'btn', function() {
+            const newTask = prompt('Edit task:', task.text);
+            if (newTask !== null) {
+                task.text = newTask;
+                saveTasks(tasks);
+                const textNode = li.childNodes[0]; 
+                textNode.nodeValue = newTask; 
+            }
+        });
+
+        const deleteBtn = createButton('Delete Task', 'btn', function() {
             list.removeChild(li);
             tasks.splice(index, 1);
-            localStorage.setItem('tasks', JSON.stringify(tasks));
+            saveTasks(tasks);
         });
 
-        li.appendChild(editBtn);
         li.appendChild(completeBtn);
+        li.appendChild(editBtn);
         li.appendChild(deleteBtn);
+
         list.appendChild(li);
     });
 }
 
-// Call loadTasks() function when the page is loaded
+function createButton(text, className, clickHandler) {
+    const button = document.createElement('button');
+    button.textContent = text;
+    button.classList.add(className);
+    button.addEventListener('click', clickHandler);
+    return button;
+}
+
 window.addEventListener('load', loadTasks);
