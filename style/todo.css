@@ -1,59 +1,60 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: black;
-    margin: 0;
-    padding: 0;
-}
-
-h1 {
-    color: black;
-    margin-top: 50px;
-    text-align: center;
-}
-
-.container {
-    width: 50%;
-    margin: 0 auto;
-    background-color: rgb(187, 170, 75);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-}
-
-input[type="text"] {
-    width: 70%;
-    padding: 8px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    body {
+        font-family: Arial, sans-serif;
+        background-color: black;
+        margin: 0;
+        padding: 0;
+    }
+    
+    h1 {
+        color: black;
+        margin-top: 50px;
+        text-align: center;
+    }
+    
+    .container {
+        width: 80%; 
+        max-width: 600px; 
+        margin: 0 auto;
+        background-color: rgb(187, 170, 75);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    input[type="text"] {
+        width: 70%;
+        padding: 8px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
     }
     
     button {
-    padding: 8px 15px;
-    background-color: black;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+        padding: 8px 15px;
+        background-color: black;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
     }
     
     ul {
-    list-style-type: none;
-    padding: 0;
+        list-style-type: none;
+        padding: 0;
     }
     
     li {
-    padding: 10px;
-    margin-bottom: 5px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 5px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
     }
-
+    
     .completed {
-    text-decoration: line-through;
-    color: #464545;
+        text-decoration: line-through;
+        color: #464545;
     }
-
+    
     .btn {
         padding: 8px 10px;
         margin-right: 8px;
@@ -61,4 +62,22 @@ input[type="text"] {
         border-radius: 5px;
         cursor: pointer;
         margin-left: 10px;
+    }
+    
+    @media only screen and (max-width: 600px) {
+        .container {
+            width: 90%;
+        }
+        
+        input[type="text"] {
+            width: 60%;
+        }
+    }
+
+    @media only screen and (max-width: 755px) {
+        .btn {
+            padding: 3px 3px; 
+            margin-right: 1px;
+            margin-left: 2px; 
+        }
     }
